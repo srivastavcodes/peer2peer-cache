@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package p2pcachepb;
+
+option go_package = "peer2peer-cache/p2pcachepb";
+
+service GroupCache {
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+message GetRequest {
+  string group = 1;
+  string key = 2;
+}
+
+message GetResponse {
+  optional bytes value = 1;
+  optional bytes minute_qps = 2;
+}
