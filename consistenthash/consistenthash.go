@@ -2,6 +2,7 @@ package consistenthash
 
 import (
 	"hash/crc32"
+	"slices"
 	"sort"
 	"strconv"
 )
@@ -32,6 +33,8 @@ func New(replicas int, hashFn Hash) *Map {
 
 // Add adds provided keys to the hash.
 func (m *Map) Add(keys ...string) {
+	m.keys = slices.Grow(m.keys, len(keys)*m.replicas)
+
 	for _, key := range keys {
 		for i := 0; i < m.replicas; i++ {
 			hash := int(m.hash([]byte(strconv.Itoa(i) + key)))
